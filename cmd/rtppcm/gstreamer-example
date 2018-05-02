@@ -1,0 +1,12 @@
+#!/bin/bash
+
+printf "\nStarting client side first to listen on port 5000 for RTP\n\n"
+gst-launch udpsrc port=5000 caps="application/x-rtp" ! queue ! rtppcmudepay ! mulawdec ! audioconvert ! alsasink &
+
+sleep 1
+
+printf "\nStarting server side then to push welcome-ulaw.wav as PCMU to port 5000 as RTP\n\n"
+go run main.go
+
+pkill gst
+

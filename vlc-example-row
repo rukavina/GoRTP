@@ -1,0 +1,9 @@
+#!/bin/bash
+
+printf "\nStarting VLC to listen on port 5555 for RTP\n\n"
+vlc -v rtp://127.0.0.1:5555 &
+sleep 1
+
+printf "\nStarting gStreamer to send welcome.wav as pcmu to 5555\n\n"
+gst-launch filesrc location=welcome-ulaw.wav ! wavparse ! rtppcmupay ! udpsink host=127.0.0.1 port=5555
+

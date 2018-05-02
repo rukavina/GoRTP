@@ -1,0 +1,12 @@
+#!/bin/bash
+
+printf "\nStarting client side first to listen on port 5555 for RTP\n\n"
+gst-launch udpsrc port=5555 caps="application/x-rtp" ! queue ! rtppcmudepay ! mulawdec ! audioconvert ! alsasink &
+
+sleep 2
+
+printf "\nStarting server side second to push welcome.wav as PCMU to port 5555 as RTP\n\n"
+gst-launch filesrc location=welcome-ulaw.wav ! wavparse ! rtppcmupay ! udpsink host=127.0.0.1 port=5555
+
+pkill gst
+

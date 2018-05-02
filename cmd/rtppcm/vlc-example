@@ -1,0 +1,9 @@
+#!/bin/bash
+
+printf "\nStarting VLC to listen on port 5000 for RTP\n\n"
+vlc -vvv rtp://127.0.0.1:5000 &
+sleep 1
+
+printf "\nStarting server side then to push welcome-ulaw.wav as PCMU to port 5000 as RTP\n\n"
+go run main.go
+
